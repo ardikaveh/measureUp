@@ -1,0 +1,79 @@
+
+html, body {
+    padding: 10px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    /*height: 100%;*/
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow-y: hidden;
+    height: 100vh;
+}
+
+header {
+    min-height:100vh;
+}
+
+.container {
+    background: rgba(245, 245, 255, .8);
+    border: 1px solid #bbb;
+    border-top: 1px solid #eee;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    width: 100%;
+    position: relative;
+}
+
+.containerBlock{
+    width: 25%;
+    height: 50vh;
+    display: inline-block;
+}
+
+.steps{
+    vertical-align: top;
+    display: inline-block;
+}
+
+.alert-danger{
+    width: 50%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.popover-content {
+    padding: 8px 4px;
+    font-size: 12px;
+}
+
+.lake {
+    background-image: url("../images/water.png");
+    background-position: top right;
+    width: 100%;
+    height: 50vh;
+    vertical-align: bottom;
+}
+
+.water {
+    /*background-color: #9cc6ff;*/
+    background-image: url("../images/lake.png");
+    background-position: 0% 0%;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 0%;
+    -webkit-transition: all 1.5s ease-out;
+    -moz-transition: all 1.5s ease-out;
+    transition: all 1.5s ease-out;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.container:hover
+{
+    cursor:pointer;
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html ng-app="MeasureUpModule">
+<head>
+    <title>Measure Up</title>
+
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+    <link rel="stylesheet" href="/javascripts/vendor/bootstrap-css/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <script type="text/javascript" src="/javascripts/vendor/angular/angular.js"></script>
+    <script type="text/javascript" src="/javascripts/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script type="text/javascript" src="/javascripts/MeasureUpModule.js"></script>
+    <script type="text/javascript" src="/javascripts/controllers/MeasureUpController.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/javascripts/vendor/jquery/jquery.ui.touch-punch.min.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/javascripts/vendor/bootstrap-javascript/bootstrap.min.js"></script>
+</head>
+<script>
+    $(document).ready(function () {
+        $(window).bind('resize', iosVhHeightBug);
+        var iOS = navigator.userAgent.match(/(iPod|iPhone|iPad)/);
+        if(iOS){
+            iosVhHeightBug();
+            function iosVhHeightBug() {
+                var ratio = 3;
+                if ($(window).height() > 500)
+                    ratio = 2;
+                var height = $(window).height() / ratio ;
+                $(".containerBlock").height(height);
+            }
+        }
+
+        var scope = angular.element($('#controller')).scope();
+        $("#containerA, #containerB").draggable({
+            revert: true, // to reset item location.
+            opacity: 0.35,
+            start: function (event, ui) {
+                //ui.helper.bind("click.prevent", function(event) { event.preventDefault(); });
+                scope.dragstart(this, $("#containerA")[0], $("#containerB")[0]);
+            },
+            stop: function (event, ui) {
+                //setTimeout(function(){ui.helper.unbind("click.prevent");}, 300);
+                scope.dragstop(this, $("#containerA")[0], $("#containerB")[0]);
+            }
+        });
+        $("#containerA, #containerB").droppable({
+            drop: function (event, ui) {
+                scope.drop(this);
+            }
+        });
+        //bind click because ng-click causes issues with drag drop
+        $('#containerA').bind('click', function () {
+            scope.toggleA();
+        });
+        $('#containerB').bind('click', function () {
+            scope.toggleB();
+        });
+
+        var visited = $.cookie("visited");
+        if (!visited)
+        {
+            document.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                $("div,input").popover('destroy');
+            }, false);
+            $('body').bind('click', function () {
+                $("div,input").popover('destroy');
+            });
+            $("div,input").popover({ html : true });
+            $("div,input").popover('show');
+            $.cookie('visited', true, { expires: 1, path: '/' });
+        }
+    });
+
+</script>
+<body>
+<form ng-submit="">
+    <h4 style="text-align:center">Measure Up!</h4>
+    <div id="controller" ng-controller="MeasureUpController">
+        <div style="text-align: center">
+            <input data-content="Container Sizes" data-placement="left" type="number" step="1" min="1" ng-change="initialize()" ng-model="sizeA" style="width:40px;" placeholder="x">
+            <input type="number" step="1" min="1" ng-change="initialize()" ng-model="sizeB" style="width:40px;" placeholder="y"><br>
+            <input data-content="Goal Amount" data-placement="right" type="number" step="1" min="1" ng-model="finalAmount" style="width:40px;" placeholder="z">
+        </div>
+        <div ng-show="message" class="alert alert-danger" >{{message}}</div>
+        <div>
+            <div style="text-align: center" data-content="Fill one of the Containers with your Goal amount!" data-placement="bottom">
+                <div class="steps">
+                    <pre ng-show="solutionA">{{solutionA}}</pre>
+                </div>
+                <div class="containerBlock">
+                    <div data-content="<div align='left'><b>Click</b> to Fill or Empty<br/><b>Drag</b> over to Transfer</div>" data-placement="bottom" ng-style="containerStyleA" id="containerA" class="container">
+                        <div ng-style="waterStyleA" id="waterA" class="water"><span class="badge">{{contentA}}</span></div>
+                    </div>
+                </div>
+                <div class="containerBlock">
+                    <div ng-style="containerStyleB" id="containerB" class="container">
+                        <div ng-style="waterStyleB" id="waterB" class="water"><span class="badge">{{contentB}}</span></div>
+                    </div>
+                </div>
+                <div class="steps">
+                    <pre ng-show="solutionB">{{solutionB}}</pre>
+                </div>
+            </div>
+            <div style="text-align: center; padding: 20px; padding-left: 20px">
+                <button class="btn btn-success" ng-click="solve()">Solve!</button>
+                <button class="btn btn-warning" ng-click="initialize()">Reset</button>
+            </div>
+        </div>
+    </div>
+    <div class="lake"></div>
+</form>
+</body>
+</html>

@@ -20,6 +20,7 @@
     <script type="text/javascript" src="/javascripts/vendor/bootstrap-javascript/bootstrap.min.js"></script>
 </head>
 <script>
+	//address vh issues with ios to get correct height
     $(document).ready(function () {
         $(window).bind('resize', iosVhHeightBug);
         var iOS = navigator.userAgent.match(/(iPod|iPhone|iPad)/);
@@ -39,11 +40,9 @@
             revert: true, // to reset item location.
             opacity: 0.35,
             start: function (event, ui) {
-                //ui.helper.bind("click.prevent", function(event) { event.preventDefault(); });
                 scope.dragstart(this, $("#containerA")[0], $("#containerB")[0]);
             },
             stop: function (event, ui) {
-                //setTimeout(function(){ui.helper.unbind("click.prevent");}, 300);
                 scope.dragstop(this, $("#containerA")[0], $("#containerB")[0]);
             }
         });
@@ -59,7 +58,8 @@
         $('#containerB').bind('click', function () {
             scope.toggleB();
         });
-
+		
+		//save a visited cookie so we dont show help hints everytime
         var visited = $.cookie("visited");
         if (!visited)
         {
@@ -75,16 +75,15 @@
             $.cookie('visited', true, { expires: 1, path: '/' });
         }
     });
-
 </script>
 <body>
 <form ng-submit="">
     <h4 style="text-align:center">Measure Up!</h4>
     <div id="controller" ng-controller="MeasureUpController">
         <div style="text-align: center">
-            <input data-content="Container Sizes" data-placement="left" type="number" step="1" min="1" ng-change="initialize()" ng-model="sizeA" style="width:40px;" placeholder="x">
-            <input type="number" step="1" min="1" ng-change="initialize()" ng-model="sizeB" style="width:40px;" placeholder="y"><br>
-            <input data-content="Goal Amount" data-placement="right" type="number" step="1" min="1" ng-model="finalAmount" style="width:40px;" placeholder="z">
+            <input data-content="Container Sizes" data-placement="left" type="number" step="1" min="1" ng-change="initialize()" ng-model="sizeA" style="width:40px;" placeholder="A">
+            <input type="number" step="1" min="1" ng-change="initialize()" ng-model="sizeB" style="width:40px;" placeholder="B"><br>
+            <input data-content="Goal Amount" data-placement="right" type="number" step="1" min="1" ng-model="finalAmount" style="width:40px;" placeholder="X">
         </div>
         <div ng-show="message" class="alert alert-danger" >{{message}}</div>
         <div>

@@ -7,11 +7,11 @@ html, body {
     padding: 0;
     border: 0;
     overflow-y: hidden;
-    height: 100vh;
+    height: 101vh;
 }
 
 header {
-    min-height:100vh;
+    min-height:101vh;
 }
 
 .container {
@@ -26,7 +26,7 @@ header {
 }
 
 .containerBlock{
-    width: 25%;
+    width: 24%;
     height: 50vh;
     display: inline-block;
 }

@@ -3,6 +3,7 @@ MeasureUp
 
 Description:
 A very simple responsive application using the MEAN stack.
+
 Live Demo:
 http://52.8.11.66:3000/
 

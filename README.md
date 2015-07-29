@@ -2,7 +2,7 @@ MeasureUp
 ===================
 
 Description:
-A very simple responsive application using the MEAN stack.
+A responsive app to play with and solve the watercups (die hard) brain teaser question using the MEAN stack.
 
 Live Demo:
 http://52.8.11.66:3000/
